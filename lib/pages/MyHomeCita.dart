@@ -3,6 +3,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:project_citas_test/pages/search_delegate.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'SenttingsPage.dart';
+import 'navegationBar.dart';
 import 'plantillahomecitatest.dart';
 import 'AddNewCita.dart';
 import 'package:page_transition/page_transition.dart';
@@ -33,15 +34,9 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
-  List<dynamic> navebar = [
-    {'Nombre': 'Citas', 'id': 0},
-    {'Nombre': 'Clientes', 'id': 1},
-    {'Nombre': 'Senttings', 'id': 2}
-  ];
 
   CalendarController _controller;
   int _selectedIndex = 0;
-  var _pageController;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -120,33 +115,7 @@ class _MyHomeState extends State<MyHome> {
           ],
         ),
         body: _getContentWidget(),
-        bottomNavigationBar: BottomNavyBar(
-          backgroundColor: Colors.blueGrey[800],
-          selectedIndex: _selectedIndex,
-          iconSize: 25,
-          showElevation: false, // use this to remove appBar's elevation
-          onItemSelected: (index) => setState(() {
-            _selectedIndex = index;
-            print(index);
-//            _pageController.animateToPage(index,
-//                duration: Duration(milliseconds: 300), curve: Curves.ease);
-          }),
-          items: [
-            BottomNavyBarItem(
-              icon: Icon(Icons.perm_contact_calendar),
-              title: Text(navebar[0]['Nombre']),
-              activeColor: Colors.blueGrey[100],
-            ),
-            BottomNavyBarItem(
-                icon: Icon(Icons.person),
-                title: Text(navebar[1]['Nombre']),
-                activeColor: Colors.blueGrey[100]),
-            BottomNavyBarItem(
-                icon: Icon(Icons.settings),
-                title: Text(navebar[2]['Nombre']),
-                activeColor: Colors.blueGrey[100]),
-          ],
-        ),
+        bottomNavigationBar: BottomNavBar()
       ),
     );
   }

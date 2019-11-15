@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage> {
       leading: Icon(it['icon']),
       onTap: () {
         setState(() {
+          print('entro');
           _selectpage = it['ruta'];
           Navigator.pop(context);
           _app = it['label'];

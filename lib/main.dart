@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_citas_test/pages/MyHomeCita.dart';
 import 'package:project_citas_test/pages/home_page.dart';
+import 'package:project_citas_test/rutas/rutas.dart';
 import 'pages/LoadindPage.dart';
 import 'pages/navegationBar.dart';
 import 'pages/plantillahomecitatest.dart';
@@ -12,7 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Loading(),
+      // home: Loading(),
+      initialRoute: '/',
+      routes: obtenerRutas(),
     );
   }
 //    MaterialApp(
