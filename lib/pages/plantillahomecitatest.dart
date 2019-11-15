@@ -27,7 +27,7 @@ Widget BodyCita(BuildContext context, CalendarController _controller) {
                 color: Colors.white)),
         headerStyle: HeaderStyle(
           titleTextStyle: TextStyle(
-              color: Colors.white70,
+              color: Colors.white,
               fontSize: 23.0,
               letterSpacing: 1.0,
               fontWeight: FontWeight.bold),

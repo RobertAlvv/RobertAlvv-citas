@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:project_citas_test/pages/search_delegate.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'SenttingsPage.dart';
 import 'plantillahomecitatest.dart';
@@ -12,6 +13,26 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  Route _createRoute() {
+    return PageRouteBuilder(
+      transitionDuration: Duration(milliseconds: 1300),
+      pageBuilder: (context, animation, secondaryAnimation) => AddCita(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.linearToEaseOut;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   List<dynamic> navebar = [
     {'Nombre': 'Citas', 'id': 0},
     {'Nombre': 'Clientes', 'id': 1},
@@ -60,11 +81,11 @@ class _MyHomeState extends State<MyHome> {
               padding: const EdgeInsets.only(left: 8.0),
               child: IconButton(
                 onPressed: () {
-                  _showBottomSheet();
+                  Navigator.of(context).push(_createRoute());
                 },
                 icon: Icon(
                   Icons.add,
-                  color: Colors.white70,
+                  color: Colors.white,
                 ),
               )),
           actions: <Widget>[
@@ -79,17 +100,19 @@ class _MyHomeState extends State<MyHome> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     elevation: 0.9,
-                    onPressed: () {},
+                    onPressed: () {
+                      showSearch(context: context, delegate: Search());
+                    },
                     child: Row(
                       children: <Widget>[
                         Text(
                           'Buscar'.toUpperCase(),
-                          style: TextStyle(color: Colors.white70),
+                          style: TextStyle(color: Colors.white),
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        Icon(Icons.search, color: Colors.white70),
+                        Icon(Icons.search, color: Colors.white),
                       ],
                     ),
                   )),
@@ -142,137 +165,5 @@ class _MyHomeState extends State<MyHome> {
           style: TextStyle(fontSize: 32.0, color: Colors.red),
         ));
     }
-  }
-
-  _showBottomSheet() {
-    _scaffoldKey.currentState.showBottomSheet((context) {
-      return Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 40),
-                    child: Text(
-                      'NUEVA CITA',
-                      style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  labelText: 'Cliente',
-                  prefixIcon: Icon(Icons.perm_identity),
-                  hintText: 'Nombre del cliente',
-                  suffixIcon: Icon(Icons.add_circle),
-                ),
-                onChanged: (valor) {
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  labelText: 'Doctor',
-                  prefixIcon: Icon(Icons.perm_contact_calendar),
-                  hintText: 'Nombre del doctor',
-                  suffixIcon: Icon(Icons.search),
-                ),
-                onChanged: (valor) {
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  labelText: 'Cliente',
-                  prefixIcon: Icon(Icons.perm_identity),
-                  hintText: 'Nombre del cliente',
-                  suffixIcon: Icon(Icons.add_circle),
-                ),
-                onChanged: (valor) {
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  labelText: 'Cliente',
-                  prefixIcon: Icon(Icons.perm_identity),
-                  hintText: 'Nombre del cliente',
-                  suffixIcon: Icon(Icons.add_circle),
-                ),
-                onChanged: (valor) {
-                  setState(() {});
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                maxLines: 8,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  labelText: 'Cliente',
-                  prefixIcon: Icon(Icons.perm_identity),
-                  hintText: 'Nombre del cliente',
-                  suffixIcon: Icon(Icons.add_circle),
-                ),
-                onChanged: (valor) {
-                  setState(() {});
-                },
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                RaisedButton(
-                  child: Text('GUARDAR'),
-                  onPressed: () {},
-                  hoverColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                RaisedButton(
-                  child: Text('CANCELAR'),
-                  onPressed: () {},
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      );
-    }).closed;
   }
 }

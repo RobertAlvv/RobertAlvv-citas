@@ -109,7 +109,7 @@ Widget Builder() {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(25),
             color: Colors.grey,
           ),
           height: 50,
