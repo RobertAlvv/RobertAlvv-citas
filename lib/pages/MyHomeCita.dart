@@ -14,6 +14,15 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  int _selectedIndex = 0;
+
+  var _pageController;
+
+  List<dynamic> navebar = [
+    {'label': 'Citas', 'ruta': 'homeCita', 'id': 0},
+    {'label': 'Registro', 'ruta': 'RegistroPage', 'id': 1},
+    {'label': 'Senttings', 'ruta': 'Senttings', 'id': 2}
+  ];
   Route _createRoute() {
     return PageRouteBuilder(
       transitionDuration: Duration(milliseconds: 1300),
@@ -34,14 +43,12 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
-
   CalendarController _controller;
-  int _selectedIndex = 0;
+  //int _selectedIndex = 0;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = CalendarController();
   }
@@ -114,25 +121,35 @@ class _MyHomeState extends State<MyHome> {
             ),
           ],
         ),
-        body: _getContentWidget(),
-        bottomNavigationBar: BottomNavBar()
+        body: BodyCita(context, _controller),
+//          bottomNavigationBar: BottomNavyBar(
+//            backgroundColor: Colors.blueGrey[800],
+//            selectedIndex: _selectedIndex,
+//            iconSize: 25,
+//            showElevation: false, // use this to remove appBar's elevation
+//            onItemSelected: (index) => setState(() {
+//              Navigator.pushNamed(context, navebar[index]['ruta']);
+////        _pageController.animateToPage(index,
+////            duration: Duration(milliseconds: 300), curve: Curves.ease);
+//            }),
+//            items: [
+//              BottomNavyBarItem(
+//                icon: Icon(Icons.perm_contact_calendar),
+//                title: Text(navebar[0]['label']),
+//                activeColor: Colors.blueGrey[100],
+//              ),
+//              BottomNavyBarItem(
+//                  icon: Icon(Icons.person),
+//                  title: Text(navebar[1]['label']),
+//                  activeColor: Colors.blueGrey[100]),
+//              BottomNavyBarItem(
+//                  icon: Icon(Icons.settings),
+//                  title: Text(navebar[2]['label']),
+//                  activeColor: Colors.blueGrey[100]),
+//            ],
+//          )
+        //BottomNavBar()
       ),
     );
-  }
-
-  Widget _getContentWidget() {
-    switch (_selectedIndex) {
-      case 0:
-        return BodyCita(context, _controller);
-      case 1:
-        return SenttingPages();
-
-      default:
-        return Center(
-            child: Text(
-          "Error",
-          style: TextStyle(fontSize: 32.0, color: Colors.red),
-        ));
-    }
   }
 }

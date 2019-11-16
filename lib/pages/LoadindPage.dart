@@ -5,6 +5,8 @@ import 'package:project_citas_test/pages/MyHomeCita.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 
+import 'navegationBar.dart';
+
 class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class _TimeWaitState extends State<TimeWait> {
       });
     });
 
-    return isLoading ? Maqueta() : MyHome();
+    return isLoading ? Maqueta() : BottomNavBar();
   }
 }
 
