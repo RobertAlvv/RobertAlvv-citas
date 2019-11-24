@@ -227,7 +227,7 @@ class _RegistroPageState extends State<RegistroPage> {
                         child: AlertDialog(
                           title: Text('Advertencia'.toUpperCase()),
                           content:
-                              Text('Estamos trabajando aun en esta seccion'),
+                              Text('Estamos trabajando aún en esta sección'),
                         ),
                       );
                     },
@@ -289,7 +289,7 @@ class _RegistroPageState extends State<RegistroPage> {
                         child: AlertDialog(
                           title: Text('Advertencia'.toUpperCase()),
                           content:
-                              Text('Estamos trabajando aun en esta seccion'),
+                              Text('Estamos trabajando aún en esta sección'),
                         ),
                       );
                     },
