@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:project_citas_test/pages/search_delegate.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'SenttingsPage.dart';
-import 'navegationBar.dart';
 import 'plantillahomecitatest.dart';
 import 'AddNewCita.dart';
-import 'package:page_transition/page_transition.dart';
+import 'TransitionsPage.dart';
 
 class MyHome extends StatefulWidget {
   @override
@@ -14,37 +11,9 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  int _selectedIndex = 0;
-
-  var _pageController;
-
-  List<dynamic> navebar = [
-    {'label': 'Citas', 'ruta': 'homeCita', 'id': 0},
-    {'label': 'Registro', 'ruta': 'RegistroPage', 'id': 1},
-    {'label': 'Senttings', 'ruta': 'Senttings', 'id': 2}
-  ];
-  Route _createRoute() {
-    return PageRouteBuilder(
-      transitionDuration: Duration(milliseconds: 1300),
-      pageBuilder: (context, animation, secondaryAnimation) => AddCita(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, 1.0);
-        var end = Offset.zero;
-        var curve = Curves.linearToEaseOut;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
+  createRoute transition = createRoute(AddCita(), 0.0, 1.0);
 
   CalendarController _controller;
-  //int _selectedIndex = 0;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -83,7 +52,7 @@ class _MyHomeState extends State<MyHome> {
               padding: const EdgeInsets.only(left: 8.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(_createRoute());
+                  Navigator.of(context).push(transition.createRoutemethod());
                 },
                 icon: Icon(
                   Icons.add,
@@ -122,32 +91,6 @@ class _MyHomeState extends State<MyHome> {
           ],
         ),
         body: BodyCita(context, _controller),
-//          bottomNavigationBar: BottomNavyBar(
-//            backgroundColor: Colors.blueGrey[800],
-//            selectedIndex: _selectedIndex,
-//            iconSize: 25,
-//            showElevation: false, // use this to remove appBar's elevation
-//            onItemSelected: (index) => setState(() {
-//              Navigator.pushNamed(context, navebar[index]['ruta']);
-////        _pageController.animateToPage(index,
-////            duration: Duration(milliseconds: 300), curve: Curves.ease);
-//            }),
-//            items: [
-//              BottomNavyBarItem(
-//                icon: Icon(Icons.perm_contact_calendar),
-//                title: Text(navebar[0]['label']),
-//                activeColor: Colors.blueGrey[100],
-//              ),
-//              BottomNavyBarItem(
-//                  icon: Icon(Icons.person),
-//                  title: Text(navebar[1]['label']),
-//                  activeColor: Colors.blueGrey[100]),
-//              BottomNavyBarItem(
-//                  icon: Icon(Icons.settings),
-//                  title: Text(navebar[2]['label']),
-//                  activeColor: Colors.blueGrey[100]),
-//            ],
-//          )
         //BottomNavBar()
       ),
     );
