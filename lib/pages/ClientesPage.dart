@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_citas_test/pages/ListarClientes.dart';
+
 class MyClientes extends StatefulWidget {
   @override
   _MyClientesState createState() => _MyClientesState();
@@ -7,6 +8,7 @@ class MyClientes extends StatefulWidget {
 
 class _MyClientesState extends State<MyClientes>
     with SingleTickerProviderStateMixin {
+  double _opacity = 1.0;
   bool isOpened = false;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
@@ -14,7 +16,7 @@ class _MyClientesState extends State<MyClientes>
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
-   int _seleccionarPantalla=1;
+  int _seleccionarPantalla = 1;
   @override
   initState() {
     _animationController =
@@ -25,7 +27,7 @@ class _MyClientesState extends State<MyClientes>
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
-      begin: Colors.indigo.withOpacity(0.9),
+      begin: Colors.teal.shade600,
       end: Colors.red,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -58,8 +60,11 @@ class _MyClientesState extends State<MyClientes>
   animate() {
     if (!isOpened) {
       _animationController.forward();
+      _opacity = 0.4;
     } else {
-      _animationController.reverse();
+      _animationController.reverse().whenComplete(() {
+        _opacity = 1.0;
+      });
     }
     isOpened = !isOpened;
   }
@@ -83,44 +88,38 @@ class _MyClientesState extends State<MyClientes>
       ),
       child: Stack(
         children: <Widget>[
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              elevation: 0,
+          Opacity(
+            opacity: _opacity,
+            child: Scaffold(
               backgroundColor: Colors.transparent,
-            ),
-            body: Container(
-              padding: EdgeInsets.only(top: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)),
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
               ),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 75),
-                  Padding(
-                    padding: EdgeInsets.only(right: 200),
-                    child: Text(
-                      'Clientes'.toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.blueGrey),
-                    ),
+              body: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(1),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
                   ),
-                  Flexible(child: seleccionarPantalla())
-                ],
-              )
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 200, top: 40),
+                        child: Text(
+                          'Clientes'.toUpperCase(),
+                          style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.teal.shade600),
+                        ),
+                      ),
+                      Flexible(child: seleccionarPantalla())
+                    ],
+                  )),
             ),
-//        floatingActionButton: AnimatedFloatingActionButton(
-//            //Fab list
-//            fabButtons: <Widget>[float1(), float2()],
-//            colorStartAnimation: Colors.blue,
-//            colorEndAnimation: Colors.red,
-//            animatedIconData: AnimatedIcons.menu_close //To principal button
-//            ),
           ),
           Positioned(
             left: 220,
@@ -138,7 +137,8 @@ class _MyClientesState extends State<MyClientes>
                     backgroundColor: Colors.indigo.withOpacity(0.9),
                     onPressed: () {
                       setState(() {
-                     _seleccionarPantalla=2;
+                        _seleccionarPantalla = 2;
+                        animate();
                       });
                     },
                     tooltip: 'Inbox',
@@ -155,8 +155,9 @@ class _MyClientesState extends State<MyClientes>
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo.withOpacity(0.9),
                     onPressed: () {
-                          setState(() {
-                     _seleccionarPantalla=1;
+                      setState(() {
+                        _seleccionarPantalla = 1;
+                        animate();
                       });
                     },
                     tooltip: 'Inbox',
@@ -166,7 +167,12 @@ class _MyClientesState extends State<MyClientes>
                 ),
                 FloatingActionButton(
                   backgroundColor: _buttonColor.value,
-                  onPressed: animate,
+                  onPressed: () {
+                    setState(() {
+                      animate();
+                      _opacity;
+                    });
+                  },
                   tooltip: 'Toggle',
                   child: AnimatedIcon(
                     icon: AnimatedIcons.menu_close,
@@ -182,113 +188,109 @@ class _MyClientesState extends State<MyClientes>
     );
   }
 
-
-  Widget formularioCliente(){
+  Widget formularioCliente() {
     return ListView(
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 35, left: 16, right: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Nombre Completo',
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Correo Electrónico',
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Dirección',
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Teléfono',
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      FlatButton(
-                        onPressed: () {},
-                        child: Text('Guardar',
-                            style: TextStyle(
-                                color: Colors.blueGrey, fontSize: 20)),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      FlatButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Cancelar',
-                          style:
-                              TextStyle(color: Colors.blueGrey, fontSize: 20),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                    ],
-                  )
-                ],
-              );
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 35, left: 16, right: 16),
+          child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: TextField(
+              //enabled: false,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                labelText: 'Nombre Completo',
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: TextField(
+              //enabled: false,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                labelText: 'Correo Electrónico',
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: TextField(
+              //enabled: false,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                labelText: 'Dirección',
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: TextField(
+              //enabled: false,
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                labelText: 'Teléfono',
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FlatButton(
+              onPressed: () {},
+              child: Text('Guardar',
+                  style: TextStyle(color: Colors.blueGrey, fontSize: 20)),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            FlatButton(
+              onPressed: () {},
+              child: Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+              ),
+            ),
+            SizedBox(
+              width: 15,
+            ),
+          ],
+        )
+      ],
+    );
   }
 
-
-  Widget seleccionarPantalla(){
-    switch (_seleccionarPantalla){
-    case 1 : return formularioCliente();
-    case 2 : return ListarCliente();
+  Widget seleccionarPantalla() {
+    switch (_seleccionarPantalla) {
+      case 1:
+        return formularioCliente();
+      case 2:
+        return ListarCliente();
     }
   }
 
