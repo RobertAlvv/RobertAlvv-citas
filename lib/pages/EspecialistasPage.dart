@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unicorndial/unicorndial.dart';
+import 'package:project_citas_test/models/especialistaModels.dart';
+import 'package:project_citas_test/pages/ListarEspecialista.dart';
+import 'package:project_citas_test/providers/db_provider.dart';
 
 class MyEspecialistas extends StatefulWidget {
   @override
@@ -16,6 +18,14 @@ class _MyEspecialistasState extends State<MyEspecialistas>
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
+
+   int _seleccionarPantalla=1;
+  TextEditingController _nombreController = TextEditingController();
+  TextEditingController _correoController = TextEditingController();
+  TextEditingController _direccionController = TextEditingController();
+  TextEditingController _telefonoController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   initState() {
@@ -91,6 +101,7 @@ class _MyEspecialistasState extends State<MyEspecialistas>
           Opacity(
             opacity: _opacity,
             child: Scaffold(
+              key: _scaffoldKey,
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 elevation: 0,
@@ -104,10 +115,10 @@ class _MyEspecialistasState extends State<MyEspecialistas>
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
                 ),
-                child: ListView(
+                child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 50.0, left: 8),
+                      padding: EdgeInsets.only(top: 80.0,right: 120),
                       child: Text(
                         'Especialistas'.toUpperCase(),
                         style: TextStyle(
@@ -116,106 +127,8 @@ class _MyEspecialistasState extends State<MyEspecialistas>
                             color: Colors.blueGrey),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 35, left: 16, right: 16),
-                      child: Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: TextField(
-                          //enabled: false,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            labelText: 'Nombre Completo',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      child: Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: TextField(
-                          //enabled: false,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            labelText: 'Correo Electronico',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      child: Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: TextField(
-                          //enabled: false,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            labelText: 'Direccion',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      child: Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: TextField(
-                          //enabled: false,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            labelText: 'Telefono',
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        FlatButton(
-                          onPressed: () {},
-                          child: Text('Guardar',
-                              style: TextStyle(
-                                  color: Colors.blueGrey, fontSize: 20)),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        FlatButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Cancelar',
-                            style:
-                                TextStyle(color: Colors.blueGrey, fontSize: 20),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                      ],
-                    )
+                    Flexible(child: seleccionarPantalla())
+                    
                   ],
                 ),
               ),
@@ -243,7 +156,11 @@ class _MyEspecialistasState extends State<MyEspecialistas>
                   ),
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo.withOpacity(0.9),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _seleccionarPantalla=2;
+                      });
+                    },
                     tooltip: 'Inbox',
                     child: Icon(Icons.search),
                     heroTag: "search",
@@ -257,7 +174,11 @@ class _MyEspecialistasState extends State<MyEspecialistas>
                   ),
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo.withOpacity(0.9),
-                    onPressed: () {},
+                    onPressed: () {
+                        setState(() {
+                        _seleccionarPantalla=1;
+                      });
+                    },
                     tooltip: 'Inbox',
                     child: Icon(Icons.add),
                     heroTag: "add",
@@ -287,6 +208,172 @@ class _MyEspecialistasState extends State<MyEspecialistas>
     );
   }
 
+  Widget formulario(){
+        return Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 35, left: 16, right: 16),
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: TextFormField(
+                            controller: _nombreController,
+                            validator: (valor) {
+                              return valor.isEmpty
+                                  ? 'El nombre es requerido'
+                                  : null;
+                            },
+                            //enabled: false,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              labelText: 'Nombre',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 35, left: 16, right: 16),
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: TextFormField(
+                            controller: _correoController,
+                            validator: (valor) {
+                              return valor.isEmpty
+                                  ? 'El correo es requerido'
+                                  : null;
+                            },
+                            //enabled: false,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              labelText: 'Correo Electrónico',
+                            ),
+                          ),
+                        ),
+                      ),Padding(
+                        padding:
+                            const EdgeInsets.only(top: 35, left: 16, right: 16),
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: TextFormField(
+                            controller: _direccionController,
+                            validator: (valor) {
+                              return valor.isEmpty
+                                  ? 'La dirección es requerida'
+                                  : null;
+                            },
+                            //enabled: false,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              labelText: 'Dirección',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 35, left: 16, right: 16),
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: TextFormField(
+                            controller: _telefonoController,
+                            validator: (valor) {
+                              return valor.isEmpty
+                                  ? 'El teléfono es requerido'
+                                  : null;
+                            },
+                            //enabled: false,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              labelText: 'Teléfono',
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                DBProvider.db.registrarBD(
+                                    EspecialistaModel(
+                                        nombreCompleto: _nombreController.text,
+                                        direccion: _direccionController.text,
+                                        correo: _correoController.text,
+                                        telefono: _telefonoController.text
+                                        ),
+                                    'especialista');
+                                final snackBar = SnackBar(
+                                  duration: Duration(milliseconds: 1200),
+                                  content: Text(
+                                      'El especialista ${_nombreController.text} se ha guardado'),
+                                  action: SnackBarAction(
+                                    label: 'Undo',
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                    },
+                                  ),
+                                );
+                                _scaffoldKey.currentState
+                                    .showSnackBar(snackBar);
+                                _formKey.currentState?.reset();
+                              }
+                            },
+                            child: Text('Guardar',
+                                style: TextStyle(
+                                    color: Colors.blueGrey, fontSize: 20)),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                                _formKey.currentState?.reset();
+                            },
+                            child: Text(
+                              'Cancelar',
+                              style: TextStyle(
+                                  color: Colors.blueGrey, fontSize: 20),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+}
+
+ Widget seleccionarPantalla(){
+    switch (_seleccionarPantalla){
+    case 1 : return formulario();
+    case 2 : return ListarEspecialistaPage();
+    }
+
   Widget float1() {
     return Container(
       child: FloatingActionButton(
@@ -307,3 +394,4 @@ class _MyEspecialistasState extends State<MyEspecialistas>
     );
   }
 }
+    }

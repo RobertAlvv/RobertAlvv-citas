@@ -1,18 +1,18 @@
 class  EspecialistaModel {
   int id;
   String nombreCompleto;
-  String sexo;
+  String correo;
   String direccion;
   String telefono;
 
    EspecialistaModel(
-      {this.id, this.nombreCompleto, this.sexo, this.direccion, this.telefono});
+      {this.id, this.nombreCompleto, this.correo, this.direccion, this.telefono});
 
   //Constructor
    EspecialistaModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     nombreCompleto = map['nombre_completo'];
-    sexo = map['sexo'];
+    correo = map['correo'];
     direccion = map['direccion'];
     telefono = map['telefono'];
   }
@@ -22,7 +22,7 @@ class  EspecialistaModel {
     return {
       'id': id,
       'nombre_completo': nombreCompleto,
-      'sexo': sexo,
+      'correo': correo,
       'direccion': direccion,
       'telefono': telefono,
     };

@@ -130,13 +130,6 @@ class _MyServiciosState extends State<MyServicios>
                   
                 )
               ),
-//        floatingActionButton: AnimatedFloatingActionButton(
-//            //Fab list
-//            fabButtons: <Widget>[float1(), float2()],
-//            colorStartAnimation: Colors.blue,
-//            colorEndAnimation: Colors.red,
-//            animatedIconData: AnimatedIcons.menu_close //To principal button
-//            ),
             ),
           ),
           Positioned(

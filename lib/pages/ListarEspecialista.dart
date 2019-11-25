@@ -54,7 +54,7 @@ class ListarEspecialistaPage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.perm_identity),
                 title: Text('${especialita.nombreCompleto}'),
-                subtitle: Text('Vive en  ${especialita.direccion}'),
+                subtitle: Text('Ubicación en  ${especialita.direccion}'),
                 onTap: () {},
               ),
               Row(
