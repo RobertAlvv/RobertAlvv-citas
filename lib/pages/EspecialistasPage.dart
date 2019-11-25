@@ -8,6 +8,7 @@ class MyEspecialistas extends StatefulWidget {
 
 class _MyEspecialistasState extends State<MyEspecialistas>
     with SingleTickerProviderStateMixin {
+  double _opacity = 1.0;
   bool isOpened = false;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
@@ -59,8 +60,11 @@ class _MyEspecialistasState extends State<MyEspecialistas>
   animate() {
     if (!isOpened) {
       _animationController.forward();
+      _opacity = 0.4;
     } else {
-      _animationController.reverse();
+      _animationController.reverse().whenComplete(() {
+        _opacity = 1.0;
+      });
     }
     isOpened = !isOpened;
   }
@@ -84,129 +88,137 @@ class _MyEspecialistasState extends State<MyEspecialistas>
       ),
       child: Stack(
         children: <Widget>[
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              elevation: 0,
+          Opacity(
+            opacity: _opacity,
+            child: Scaffold(
               backgroundColor: Colors.transparent,
-            ),
-            body: Container(
-              padding: EdgeInsets.only(top: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)),
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
               ),
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 50.0, left: 8),
-                    child: Text(
-                      'Especialistas'.toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.blueGrey),
+              body: Container(
+                padding: EdgeInsets.only(top: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                ),
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 50.0, left: 8),
+                      child: Text(
+                        'Especialistas'.toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.blueGrey),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 35, left: 16, right: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Nombre Completo',
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 35, left: 16, right: 16),
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: TextField(
+                          //enabled: false,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            labelText: 'Nombre Completo',
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Correo Electronico',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: TextField(
+                          //enabled: false,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            labelText: 'Correo Electronico',
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Direccion',
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: TextField(
+                          //enabled: false,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            labelText: 'Direccion',
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: TextField(
-                        //enabled: false,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Telefono',
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: TextField(
+                          //enabled: false,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            labelText: 'Telefono',
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      FlatButton(
-                        onPressed: () {},
-                        child: Text('Guardar',
-                            style: TextStyle(
-                                color: Colors.blueGrey, fontSize: 20)),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      FlatButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Cancelar',
-                          style:
-                              TextStyle(color: Colors.blueGrey, fontSize: 20),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text('Guardar',
+                              style: TextStyle(
+                                  color: Colors.blueGrey, fontSize: 20)),
                         ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                    ],
-                  )
-                ],
+                        SizedBox(
+                          width: 5,
+                        ),
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Cancelar',
+                            style:
+                                TextStyle(color: Colors.blueGrey, fontSize: 20),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
 //        floatingActionButton: AnimatedFloatingActionButton(
 //            //Fab list
 //            fabButtons: <Widget>[float1(), float2()],
@@ -215,6 +227,7 @@ class _MyEspecialistasState extends State<MyEspecialistas>
 //            animatedIconData: AnimatedIcons.menu_close //To principal button
 //
 //           ),
+            ),
           ),
           Positioned(
             left: 220,
@@ -252,7 +265,12 @@ class _MyEspecialistasState extends State<MyEspecialistas>
                 ),
                 FloatingActionButton(
                   backgroundColor: _buttonColor.value,
-                  onPressed: animate,
+                  onPressed: () {
+                    setState(() {
+                      animate();
+                      _opacity;
+                    });
+                  },
                   tooltip: 'Toggle',
                   child: AnimatedIcon(
                     icon: AnimatedIcons.menu_close,
