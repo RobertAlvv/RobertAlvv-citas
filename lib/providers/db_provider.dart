@@ -34,11 +34,11 @@ class DBProvider {
       onCreate: (Database db, int version) async {
         await db.execute(
             'CREATE TABLE clientes(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'nombre_completo VARCHAR NOT NULL,sexo CHART NOT NULL,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
+                'nombre_completo VARCHAR NOT NULL,correo VARCHAR,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
 
                   await db.execute(
             'CREATE TABLE especialista(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'nombre_completo VARCHAR NOT NULL,sexo CHART NOT NULL,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
+                'nombre_completo VARCHAR NOT NULL,correo VARCHAR,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
 
                     await db.execute(
             'CREATE TABLE servicios(id INTEGER PRIMARY KEY AUTOINCREMENT,'

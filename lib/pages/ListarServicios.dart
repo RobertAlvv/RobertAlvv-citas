@@ -47,31 +47,39 @@ Widget _consultarServicios() {
           DBProvider.db.deleteById(servicio.id, 'servicios');
         },
         child: Card(
+           margin: EdgeInsets.only(top: 20),
+            elevation: 5,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.perm_identity),
-                title: Text('${servicio.nombre}'),
-                subtitle: Text('Descripción ${servicio.descripcion}'),
-                onTap: () {},
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  FlatButton(
-                      child: Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () {}),
-                  FlatButton(
-                      child: Icon(Icons.arrow_forward_ios),
-                      onPressed: () {
-                        //Navigator.pushNamed(context, 'user_details');
-                      })
-                ],
-              )
-            ],
-          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                SizedBox(height: 100),
+                    Flexible(
+                      child: ListTile(
+                        leading: Icon(Icons.perm_identity),
+                        title: Text('${servicio.nombre}',style: TextStyle(fontSize: 18)),
+                        subtitle: Text('Descripción en  ${servicio.descripcion}',style: TextStyle(fontSize: 15)),
+                        onTap: () {},
+                      ),
+                    ),
+                     FlatButton(
+                          child: Icon(Icons.edit, color: Colors.blue,size: 25),
+                          onPressed: () {
+                            // ListUserPage.seleccionarPantalla = 2;
+                            // usuarioEditar = user;
+                            // setState(() {
+
+                            // });
+                          })
+                  ],
+                ),
+                SizedBox(height: 10)
+              ],
+            ),
         ),
       );
     }).toList();
