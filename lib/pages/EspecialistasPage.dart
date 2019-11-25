@@ -265,6 +265,7 @@ class _MyEspecialistasState extends State<MyEspecialistas>
                 ),
                 FloatingActionButton(
                   backgroundColor: _buttonColor.value,
+                  elevation: 25,
                   onPressed: () {
                     setState(() {
                       animate();
