@@ -65,7 +65,7 @@ class _RegistroPageState extends State<RegistroPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 25.0, left: 8),
                 child: Text(
-                  'Registro'.toUpperCase(),
+                  'Registros'.toUpperCase(),
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontSize: 45,

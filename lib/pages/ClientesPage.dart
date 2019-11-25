@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_citas_test/Widgets/FloatButtonAnimated.dart';
-import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
-
+import 'package:project_citas_test/pages/ListarClientes.dart';
 class MyClientes extends StatefulWidget {
   @override
   _MyClientesState createState() => _MyClientesState();
@@ -16,7 +14,7 @@ class _MyClientesState extends State<MyClientes>
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
-
+   int _seleccionarPantalla=1;
   @override
   initState() {
     _animationController =
@@ -99,10 +97,11 @@ class _MyClientesState extends State<MyClientes>
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
               ),
-              child: ListView(
+              child: Column(
                 children: <Widget>[
+                  SizedBox(height: 75),
                   Padding(
-                    padding: EdgeInsets.only(top: 30.0, left: 8),
+                    padding: EdgeInsets.only(right: 200),
                     child: Text(
                       'Clientes'.toUpperCase(),
                       style: TextStyle(
@@ -111,6 +110,82 @@ class _MyClientesState extends State<MyClientes>
                           color: Colors.blueGrey),
                     ),
                   ),
+                  Flexible(child: seleccionarPantalla())
+                ],
+              )
+            ),
+//        floatingActionButton: AnimatedFloatingActionButton(
+//            //Fab list
+//            fabButtons: <Widget>[float1(), float2()],
+//            colorStartAnimation: Colors.blue,
+//            colorEndAnimation: Colors.red,
+//            animatedIconData: AnimatedIcons.menu_close //To principal button
+//            ),
+          ),
+          Positioned(
+            left: 220,
+            top: 98,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Transform(
+                  transform: Matrix4.translationValues(
+                    _translateButton.value * 2.0,
+                    0.0,
+                    0.0,
+                  ),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.indigo.withOpacity(0.9),
+                    onPressed: () {
+                      setState(() {
+                     _seleccionarPantalla=2;
+                      });
+                    },
+                    tooltip: 'Inbox',
+                    child: Icon(Icons.search),
+                    heroTag: "search",
+                  ),
+                ),
+                Transform(
+                  transform: Matrix4.translationValues(
+                    _translateButton.value * 1.0,
+                    0.0,
+                    0.0,
+                  ),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.indigo.withOpacity(0.9),
+                    onPressed: () {
+                          setState(() {
+                     _seleccionarPantalla=1;
+                      });
+                    },
+                    tooltip: 'Inbox',
+                    child: Icon(Icons.add),
+                    heroTag: "add",
+                  ),
+                ),
+                FloatingActionButton(
+                  backgroundColor: _buttonColor.value,
+                  onPressed: animate,
+                  tooltip: 'Toggle',
+                  child: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: _animateIcon,
+                  ),
+                  heroTag: "menu",
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+
+  Widget formularioCliente(){
+    return ListView(
+                children: <Widget>[
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 35, left: 16, right: 16),
@@ -140,7 +215,7 @@ class _MyClientesState extends State<MyClientes>
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Correo Electronico',
+                          labelText: 'Correo Electrónico',
                         ),
                       ),
                     ),
@@ -156,7 +231,7 @@ class _MyClientesState extends State<MyClientes>
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Direccion',
+                          labelText: 'Dirección',
                         ),
                       ),
                     ),
@@ -172,7 +247,7 @@ class _MyClientesState extends State<MyClientes>
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16)),
-                          labelText: 'Telefono',
+                          labelText: 'Teléfono',
                         ),
                       ),
                     ),
@@ -206,66 +281,15 @@ class _MyClientesState extends State<MyClientes>
                     ],
                   )
                 ],
-              ),
-            ),
-//        floatingActionButton: AnimatedFloatingActionButton(
-//            //Fab list
-//            fabButtons: <Widget>[float1(), float2()],
-//            colorStartAnimation: Colors.blue,
-//            colorEndAnimation: Colors.red,
-//            animatedIconData: AnimatedIcons.menu_close //To principal button
-//            ),
-          ),
-          Positioned(
-            left: 220,
-            top: 98,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Transform(
-                  transform: Matrix4.translationValues(
-                    _translateButton.value * 2.0,
-                    0.0,
-                    0.0,
-                  ),
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.indigo.withOpacity(0.9),
-                    onPressed: () {},
-                    tooltip: 'Inbox',
-                    child: Icon(Icons.search),
-                    heroTag: "search",
-                  ),
-                ),
-                Transform(
-                  transform: Matrix4.translationValues(
-                    _translateButton.value * 1.0,
-                    0.0,
-                    0.0,
-                  ),
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.indigo.withOpacity(0.9),
-                    onPressed: () {},
-                    tooltip: 'Inbox',
-                    child: Icon(Icons.add),
-                    heroTag: "add",
-                  ),
-                ),
-                FloatingActionButton(
-                  backgroundColor: _buttonColor.value,
-                  onPressed: animate,
-                  tooltip: 'Toggle',
-                  child: AnimatedIcon(
-                    icon: AnimatedIcons.menu_close,
-                    progress: _animateIcon,
-                  ),
-                  heroTag: "menu",
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+              );
+  }
+
+
+  Widget seleccionarPantalla(){
+    switch (_seleccionarPantalla){
+    case 1 : return formularioCliente();
+    case 2 : return ListarCliente();
+    }
   }
 
   Widget float1() {

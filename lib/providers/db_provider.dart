@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:project_citas_test/models/clienteModels.dart';
+import 'package:project_citas_test/models/especialistaModels.dart';
+import 'package:project_citas_test/models/serviciosModels.dart';
 // import 'package:saturday_drawer_app/models/userModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -29,7 +32,6 @@ class DBProvider {
       version: 1,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
-        //https://old.sqliteonline.com/
         await db.execute(
             'CREATE TABLE clientes(id INTEGER PRIMARY KEY AUTOINCREMENT,'
                 'nombre_completo VARCHAR NOT NULL,sexo CHART NOT NULL,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
@@ -42,20 +44,97 @@ class DBProvider {
             'CREATE TABLE servicios(id INTEGER PRIMARY KEY AUTOINCREMENT,'
                 'nombre VARCHAR NOT NULL,descripcion NOT NULL)');
 
-
                    await db.execute(
             'CREATE TABLE citas(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'id_cliente INTEGER NOT NULL, fecha Date NOT NULL');
+                'id_cliente INTEGER NOT NULL, fecha Date NOT NULL,id_especialista INTEGER NOT NULL,'
+                'id_servicio INTEGER NOT NULL)'
+                );
 
-                      await db.execute(
-            'CREATE TABLE detalles_citas(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'id_cita INTEGER NOT NULL,id_especialista INTEGER NOT NULL');
+            //           await db.execute(
+            // 'CREATE TABLE detalles_citas(id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            //     'id_cita INTEGER NOT NULL,id_especialista INTEGER NOT NULL');
         },
 
         
 
       
     );
+  }
+
+
+  Future<int> registrarBD(dynamic registro,String tabla) async {
+    final db = await database;
+
+//    final userId = await db.rawInsert(
+//        'INSERT INTO users (id,nombre) VALUES (${user.id},${user.nombre})');
+//    final userId = await db.rawInsert(
+//        'INSERT INTO users (id,nombre) VALUES (?,?)',[user.id,user.nombre]);
+    final id = await db.insert('$tabla', registro.toMap());
+    return id;
+  }
+
+  Future<List<ClienteModel>> listaCliente() async {
+    final db = await database;
+
+    final results = await db.query('clientes');
+
+    List<ClienteModel> cli = results.isNotEmpty
+        ? results.map((user) => ClienteModel.fromMap(user)).toList()
+        : [];
+    return cli;
+  }
+
+Future<List<EspecialistaModel>> listaEspecialista() async {
+    final db = await database;
+
+    final results = await db.query('especialista');
+
+    List<EspecialistaModel> especialista = results.isNotEmpty
+        ? results.map((user) => EspecialistaModel.fromMap(user)).toList()
+        : [];
+    return especialista;
+  }
+
+  Future<List<ServicioModel>> listaServicio() async {
+    final db = await database;
+
+    final results = await db.query('servicios');
+
+    List<ServicioModel> servicio = results.isNotEmpty
+        ? results.map((user) => ServicioModel.fromMap(user)).toList()
+        : [];
+    return servicio;
+  }
+  // Future<UserModel> searchUserById(int id) async {
+  //   final db = await database;
+
+  //   final result = await db.query('users', where: 'id = ?',
+  //       whereArgs: [id]);
+  //   //final result = await db.execute('SELECT * FROM users WHERE id = $id');
+
+  //   return result.isNotEmpty ? UserModel.fromMap(result.first) : null;
+  // }
+
+  Future<int> updateBD(dynamic registro,String tabla) async {
+    final db = await database;
+
+    final result = await db
+        .update('$tabla', registro.toMap(), where: 'id = ?', whereArgs: [registro.id]);
+    return result;
+  }
+
+  Future<int> deleteById(int id,String tabla) async {
+    final db = await database;
+
+    final result = await db.delete('$tabla', where: 'id = ?', whereArgs: [id]);
+    return result;
+  }
+
+  Future<int> delete(String tabla) async {
+    final db = await database;
+
+    final result = await db.delete('$tabla');
+    return result;
   }
 
 }
