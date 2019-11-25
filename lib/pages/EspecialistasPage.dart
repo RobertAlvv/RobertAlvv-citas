@@ -1,8 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:project_citas_test/Widgets/FloatButtonAnimated.dart';
-import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
+import 'package:unicorndial/unicorndial.dart';
 
-class MyEspecialistas extends StatelessWidget {
+class MyEspecialistas extends StatefulWidget {
+  @override
+  _MyEspecialistasState createState() => _MyEspecialistasState();
+}
+
+class _MyEspecialistasState extends State<MyEspecialistas>
+    with SingleTickerProviderStateMixin {
+  bool isOpened = false;
+  AnimationController _animationController;
+  Animation<Color> _buttonColor;
+  Animation<double> _animateIcon;
+  Animation<double> _translateButton;
+  Curve _curve = Curves.easeOut;
+  double _fabHeight = 56.0;
+
+  @override
+  initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+          ..addListener(() {
+            setState(() {});
+          });
+    _animateIcon =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _buttonColor = ColorTween(
+      begin: Colors.indigo.withOpacity(0.9),
+      end: Colors.red,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.00,
+        1.00,
+        curve: Curves.linear,
+      ),
+    ));
+    _translateButton = Tween<double>(
+      begin: _fabHeight,
+      end: -14.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.0,
+        0.75,
+        curve: _curve,
+      ),
+    ));
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  animate() {
+    if (!isOpened) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+    isOpened = !isOpened;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -155,11 +217,50 @@ class MyEspecialistas extends StatelessWidget {
 //           ),
           ),
           Positioned(
-            left: 330,
-            top: 100,
-            child: FloatingActionButton(
-              backgroundColor: Colors.pink,
-              child: new Icon(Icons.filter_list),
+            left: 220,
+            top: 98,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Transform(
+                  transform: Matrix4.translationValues(
+                    _translateButton.value * 2.0,
+                    0.0,
+                    0.0,
+                  ),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.indigo.withOpacity(0.9),
+                    onPressed: () {},
+                    tooltip: 'Inbox',
+                    child: Icon(Icons.search),
+                    heroTag: "search",
+                  ),
+                ),
+                Transform(
+                  transform: Matrix4.translationValues(
+                    _translateButton.value * 1.0,
+                    0.0,
+                    0.0,
+                  ),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.indigo.withOpacity(0.9),
+                    onPressed: () {},
+                    tooltip: 'Inbox',
+                    child: Icon(Icons.add),
+                    heroTag: "add",
+                  ),
+                ),
+                FloatingActionButton(
+                  backgroundColor: _buttonColor.value,
+                  onPressed: animate,
+                  tooltip: 'Toggle',
+                  child: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: _animateIcon,
+                  ),
+                  heroTag: "menu",
+                ),
+              ],
             ),
           )
         ],
