@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_citas_test/models/clienteModels.dart';
 import 'package:project_citas_test/pages/ListarClientes.dart';
+import 'package:project_citas_test/providers/db_provider.dart';
 
 class MyClientes extends StatefulWidget {
   @override
@@ -17,6 +19,14 @@ class _MyClientesState extends State<MyClientes>
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
   int _seleccionarPantalla = 1;
+
+  TextEditingController _nombreController = TextEditingController();
+  TextEditingController _correoController = TextEditingController();
+  TextEditingController _direccionController = TextEditingController();
+  TextEditingController _telefonoController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   initState() {
     _animationController =
@@ -91,6 +101,7 @@ class _MyClientesState extends State<MyClientes>
           Opacity(
             opacity: _opacity,
             child: Scaffold(
+              key: _scaffoldKey,
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 elevation: 0,
@@ -189,99 +200,153 @@ class _MyClientesState extends State<MyClientes>
   }
 
   Widget formularioCliente() {
-    return ListView(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 35, left: 16, right: 16),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: TextField(
-              //enabled: false,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                labelText: 'Nombre Completo',
+    return Form(
+      key: _formKey,
+          child: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 35, left: 16, right: 16),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: TextFormField(
+                controller: _nombreController,
+                    validator: (valor) {
+                                return valor.isEmpty
+                                    ? 'El nombre es requerido'
+                                    : null;
+                              },
+                //enabled: false,
+                decoration: InputDecoration(
+                  border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  labelText: 'Nombre Completo',
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: TextField(
-              //enabled: false,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                labelText: 'Correo Electrónico',
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: TextFormField(
+                controller: _correoController,
+                    validator: (valor) {
+                                return valor.isEmpty
+                                    ? 'El correo es requerido'
+                                    : null;
+                              },
+                //enabled: false,
+                decoration: InputDecoration(
+                  border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  labelText: 'Correo Electrónico',
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: TextField(
-              //enabled: false,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                labelText: 'Dirección',
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: TextFormField(
+                controller: _direccionController,
+                    validator: (valor) {
+                                return valor.isEmpty
+                                    ? 'La dirección es requerida'
+                                    : null;
+                              },
+                //enabled: false,
+                decoration: InputDecoration(
+                  border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  labelText: 'Dirección',
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: TextField(
-              //enabled: false,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-                labelText: 'Teléfono',
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: TextFormField(
+                controller: _telefonoController,
+                    validator: (valor) {
+                                return valor.isEmpty
+                                    ? 'El teléfono es requerido'
+                                    : null;
+                              },
+                //enabled: false,
+                decoration: InputDecoration(
+                  border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                  labelText: 'Teléfono',
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            FlatButton(
-              onPressed: () {},
-              child: Text('Guardar',
-                  style: TextStyle(color: Colors.blueGrey, fontSize: 20)),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            FlatButton(
-              onPressed: () {},
-              child: Text(
-                'Cancelar',
-                style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                                  DBProvider.db.registrarBD(
+                                      ClienteModel(
+                                          nombreCompleto: _nombreController.text,
+                                          direccion: _direccionController.text,
+                                          correo: _correoController.text,
+                                          telefono: _telefonoController.text
+                                          ),
+                                      'clientes');
+                                  final snackBar = SnackBar(
+                                    duration: Duration(milliseconds: 1200),
+                                    content: Text(
+                                        'El cliente ${_nombreController.text} se ha guardado'),
+                                    action: SnackBarAction(
+                                      label: 'Undo',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ),
+                                  );
+                                  _scaffoldKey.currentState
+                                      .showSnackBar(snackBar);
+                                  _formKey.currentState?.reset();
+                                }
+                },
+                child: Text('Guardar',
+                    style: TextStyle(color: Colors.blueGrey, fontSize: 20)),
               ),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-          ],
-        )
-      ],
+              SizedBox(
+                width: 5,
+              ),
+              FlatButton(
+                onPressed: () {
+                   _formKey.currentState?.reset();
+                },
+                child: Text(
+                  'Cancelar',
+                  style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
