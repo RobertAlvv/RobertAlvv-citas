@@ -38,6 +38,8 @@ dependencies:
   path_provider: ^1.4.0
   animated_floatactionbuttons: ^0.1.0
   unicorndial: ^1.1.5
+  autocomplete_textfield: ^1.6.4
+
 
 dev_dependencies:
   flutter_test:
