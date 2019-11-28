@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:project_citas_test/models/clienteModels.dart';
@@ -22,8 +23,7 @@ class DBProvider {
   }
 
   initDataBase() async {
-    Directory appDirectory = await
-    getApplicationDocumentsDirectory();
+    Directory appDirectory = await getApplicationDocumentsDirectory();
     final String path = join(appDirectory.path, 'citas.db');
 
     return await openDatabase(
@@ -33,35 +33,29 @@ class DBProvider {
       onCreate: (Database db, int version) async {
         await db.execute(
             'CREATE TABLE clientes(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'nombre_completo VARCHAR NOT NULL,correo VARCHAR,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
+            'nombre_completo VARCHAR NOT NULL,correo VARCHAR,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
 
-                  await db.execute(
+        await db.execute(
             'CREATE TABLE especialista(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'nombre_completo VARCHAR NOT NULL,correo VARCHAR,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
+            'nombre_completo VARCHAR NOT NULL,correo VARCHAR,direccion VARCHAR NOT NULL,telefono VARCHAR NOT NULL)');
 
-                    await db.execute(
+        await db.execute(
             'CREATE TABLE servicios(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'nombre VARCHAR NOT NULL,descripcion NOT NULL)');
+            'nombre VARCHAR NOT NULL,descripcion NOT NULL)');
 
-                   await db.execute(
+        await db.execute(
             'CREATE TABLE citas(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-                'id_cliente INTEGER NOT NULL, fecha Date NOT NULL,id_especialista INTEGER NOT NULL,'
-                'id_servicio INTEGER NOT NULL)'
-                );
+            'id_cliente INTEGER NOT NULL, fecha Date NOT NULL,id_especialista INTEGER NOT NULL,'
+            'id_servicio INTEGER NOT NULL)');
 
-            //           await db.execute(
-            // 'CREATE TABLE detalles_citas(id INTEGER PRIMARY KEY AUTOINCREMENT,'
-            //     'id_cita INTEGER NOT NULL,id_especialista INTEGER NOT NULL');
-        },
-
-        
-
-      
+        //           await db.execute(
+        // 'CREATE TABLE detalles_citas(id INTEGER PRIMARY KEY AUTOINCREMENT,'
+        //     'id_cita INTEGER NOT NULL,id_especialista INTEGER NOT NULL');
+      },
     );
   }
 
-
-  Future<int> registrarBD(dynamic registro,String tabla) async {
+  Future<int> registrarBD(dynamic registro, String tabla) async {
     final db = await database;
 
 //    final userId = await db.rawInsert(
@@ -83,7 +77,7 @@ class DBProvider {
     return cli;
   }
 
-Future<List<EspecialistaModel>> listaEspecialista() async {
+  Future<List<EspecialistaModel>> listaEspecialista() async {
     final db = await database;
 
     final results = await db.query('especialista');
@@ -114,15 +108,15 @@ Future<List<EspecialistaModel>> listaEspecialista() async {
   //   return result.isNotEmpty ? UserModel.fromMap(result.first) : null;
   // }
 
-  Future<int> updateBD(dynamic registro,String tabla) async {
+  Future<int> updateBD(dynamic registro, String tabla) async {
     final db = await database;
 
-    final result = await db
-        .update('$tabla', registro.toMap(), where: 'id = ?', whereArgs: [registro.id]);
+    final result = await db.update('$tabla', registro.toMap(),
+        where: 'id = ?', whereArgs: [registro.id]);
     return result;
   }
 
-  Future<int> deleteById(int id,String tabla) async {
+  Future<int> deleteById(int id, String tabla) async {
     final db = await database;
 
     final result = await db.delete('$tabla', where: 'id = ?', whereArgs: [id]);
@@ -136,4 +130,16 @@ Future<List<EspecialistaModel>> listaEspecialista() async {
     return result;
   }
 
+  Future <Map<String,List<dynamic>>> cargarDataAutocompletado() async {
+    final clientes      =     await listaCliente();
+    final especialistas =    await listaEspecialista();
+    final servicios     =     await listaServicio();
+    Map<String,List<dynamic>> dataAutocompletado = {
+       'clientes':clientes,
+       'especialistas':especialistas,
+       'servicios':servicios
+    };
+
+    return dataAutocompletado;
+  }
 }
