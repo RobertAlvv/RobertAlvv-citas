@@ -1,7 +1,8 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:project_citas_test/models/citasModels.dart';
+import 'package:intl/intl.dart';
 import 'package:project_citas_test/providers/db_provider.dart';
+
 
 class AddCita extends StatefulWidget {
   @override
@@ -435,9 +436,9 @@ class _AddCitaState extends State<AddCita> {
         initialDate: DateTime.now(),
         firstDate: DateTime(2015),
         lastDate: DateTime(2025));
-
+     final formato = DateFormat('dd-MM-yyyy');
     setState(() {
-      _fechaController.text = picket.toString();
+      _fechaController.text = picket!=null ?  formato.format(picket) : '';
     });
   }
 }
