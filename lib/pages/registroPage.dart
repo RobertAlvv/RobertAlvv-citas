@@ -63,11 +63,12 @@ class _RegistroPageState extends State<RegistroPage> {
           child: ListView(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 25.0, left: 8),
+                padding: const EdgeInsets.only(top: 30.0, left: 15),
                 child: Text(
                   'Registros'.toUpperCase(),
                   style: TextStyle(
-                    color: Colors.blueGrey,
+                    color: Colors.teal.shade600,
+                    letterSpacing: 2,
                     fontSize: 45,
                     fontWeight: FontWeight.w900,
                   ),
@@ -90,7 +91,7 @@ class _RegistroPageState extends State<RegistroPage> {
                       contentPadding: EdgeInsets.only(top: 6, left: 14),
                       leading: CircleAvatar(
                         radius: 25,
-                        backgroundColor: Colors.blueGrey.withOpacity(0.7),
+                        backgroundColor: Colors.teal.shade600,
                         child: Icon(
                           Icons.person_add,
                           color: Colors.white,
@@ -137,7 +138,7 @@ class _RegistroPageState extends State<RegistroPage> {
                     contentPadding: EdgeInsets.only(top: 6, left: 14),
                     leading: CircleAvatar(
                       radius: 25,
-                      backgroundColor: Colors.blueGrey.withOpacity(0.7),
+                      backgroundColor: Colors.teal.shade600,
                       child: Icon(
                         Icons.recent_actors,
                         color: Colors.white,
@@ -183,7 +184,7 @@ class _RegistroPageState extends State<RegistroPage> {
                     contentPadding: EdgeInsets.only(top: 6, left: 14),
                     leading: CircleAvatar(
                       radius: 25,
-                      backgroundColor: Colors.blueGrey.withOpacity(0.7),
+                      backgroundColor: Colors.teal.shade600,
                       child: Icon(
                         Icons.view_list,
                         color: Colors.white,
@@ -234,7 +235,7 @@ class _RegistroPageState extends State<RegistroPage> {
                     contentPadding: EdgeInsets.only(top: 6, left: 14),
                     leading: CircleAvatar(
                       radius: 25,
-                      backgroundColor: Colors.blueGrey.withOpacity(0.7),
+                      backgroundColor: Colors.teal.shade600,
                       child: Icon(
                         Icons.view_week,
                         color: Colors.white,
@@ -296,7 +297,7 @@ class _RegistroPageState extends State<RegistroPage> {
                     contentPadding: EdgeInsets.only(top: 6, left: 14),
                     leading: CircleAvatar(
                       radius: 25,
-                      backgroundColor: Colors.blueGrey.withOpacity(0.7),
+                      backgroundColor: Colors.teal.shade600,
                       child: Icon(
                         Icons.insert_chart,
                         color: Colors.white,

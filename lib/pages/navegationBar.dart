@@ -19,9 +19,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   var ruta;
 
   static List<dynamic> navebar = [
-    {'label': 'Citas', 'ruta': MyHome()},
+    {'label': 'Agenda', 'ruta': MyHome()},
     {'label': 'Registro', 'ruta': RegistroPage()},
-    {'label': 'Senttings', 'ruta': SenttingPages()}
+    {'label': 'Configuracion', 'ruta': SenttingPages()}
   ];
 
   @override
@@ -44,18 +44,48 @@ class _BottomNavBarState extends State<BottomNavBar> {
         }),
         items: [
           BottomNavyBarItem(
-            icon: Icon(Icons.perm_contact_calendar),
-            title: Text(navebar[0]['label']),
+            icon: Icon(
+              Icons.perm_contact_calendar,
+              color: Colors.teal.shade500,
+            ),
+            title: Text(
+              navebar[0]['label'],
+              style: TextStyle(
+                color: Colors.teal.shade500,
+              ),
+            ),
             activeColor: Colors.blueGrey[100],
+            inactiveColor: Colors.teal.shade500,
           ),
           BottomNavyBarItem(
-              icon: Icon(Icons.person),
-              title: Text(navebar[1]['label']),
-              activeColor: Colors.blueGrey[100]),
+            icon: Icon(
+              Icons.person,
+              color: Colors.teal.shade500,
+            ),
+            title: Text(
+              navebar[1]['label'],
+              style: TextStyle(
+                color: Colors.teal.shade500,
+              ),
+            ),
+            activeColor: Colors.blueGrey[100],
+            inactiveColor: Colors.teal.shade500,
+          ),
           BottomNavyBarItem(
-              icon: Icon(Icons.settings),
-              title: Text(navebar[2]['label']),
-              activeColor: Colors.blueGrey[100]),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.teal.shade500,
+            ),
+            title: Text(
+              navebar[2]['label'],
+              style: TextStyle(
+                color: Colors.teal.shade500,
+                fontSize: 13,
+              ),
+            ),
+            activeColor: Colors.blueGrey[100],
+            inactiveColor: Colors.teal.shade500,
+          ),
         ],
       ),
     );

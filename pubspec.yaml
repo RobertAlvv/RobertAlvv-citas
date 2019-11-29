@@ -39,6 +39,9 @@ dependencies:
   animated_floatactionbuttons: ^0.1.0
   unicorndial: ^1.1.5
   autocomplete_textfield: ^1.6.4
+  font_awesome_flutter: ^8.5.0
+
+
 
 
 dev_dependencies:
