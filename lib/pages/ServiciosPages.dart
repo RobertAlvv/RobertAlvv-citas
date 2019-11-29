@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_citas_test/models/serviciosModels.dart';
 import 'package:project_citas_test/pages/ListarServicios.dart';
 import 'package:project_citas_test/providers/db_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyServicios extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _MyServiciosState extends State<MyServicios>
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
-   int _seleccionarPantalla=1;
+  int _seleccionarPantalla = 1;
 
   TextEditingController _nombreController = TextEditingController();
   TextEditingController _descripcionController = TextEditingController();
@@ -35,7 +36,7 @@ class _MyServiciosState extends State<MyServicios>
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
-      begin: Colors.indigo.withOpacity(0.9),
+      begin: Colors.teal.shade600,
       end: Colors.red,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -101,40 +102,89 @@ class _MyServiciosState extends State<MyServicios>
             child: Scaffold(
               key: _scaffoldKey,
               backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
+              appBar: PreferredSize(
+                preferredSize: Size(double.infinity, 200),
+                child: Container(
+                  height: 136,
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 14.0, top: 60),
+                        child: Container(
+                            height: 40,
+                            width: 110,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.teal.shade600,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  offset: Offset(1, 8),
+                                  color: Colors.black26,
+                                  blurRadius: 10,
+                                  spreadRadius: 1,
+                                )
+                              ],
+                            ),
+                            child: MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              elevation: 0.9,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    FontAwesomeIcons.chevronLeft,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 1,
+                                  ),
+                                  Text(
+                                    'Atras'.toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        letterSpacing: 1,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               body: Container(
-                padding: EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(top: 55.0, right: 200),
+                  padding: EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(1),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 150, top: 40),
                         child: Text(
                           'Servicios'.toUpperCase(),
                           style: TextStyle(
-                              fontSize: 35,
+                              fontSize: 45,
+                              letterSpacing: 3,
                               fontWeight: FontWeight.w900,
-                              color: Colors.blueGrey),
+                              color: Colors.teal.shade600),
                         ),
                       ),
                       Flexible(child: seleccionarPantalla())
-                  ]
-                  
-                )
-              ),
+                    ],
+                  )),
             ),
           ),
           Positioned(
-            left: 220,
-            top: 98,
+            left: 225,
+            top: 110,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -145,13 +195,14 @@ class _MyServiciosState extends State<MyServicios>
                     0.0,
                   ),
                   child: FloatingActionButton(
-                    backgroundColor: Colors.indigo.withOpacity(0.9),
+                    backgroundColor: Colors.teal.shade600,
                     onPressed: () {
                       setState(() {
-                        _seleccionarPantalla=2;
+                        _seleccionarPantalla = 1;
+                        animate();
                       });
                     },
-                    tooltip: 'Inbox',
+                    tooltip: 'Buscar',
                     child: Icon(Icons.search),
                     heroTag: "search",
                   ),
@@ -163,20 +214,20 @@ class _MyServiciosState extends State<MyServicios>
                     0.0,
                   ),
                   child: FloatingActionButton(
-                    backgroundColor: Colors.indigo.withOpacity(0.9),
+                    backgroundColor: Colors.teal.shade600,
                     onPressed: () {
-                       setState(() {
-                        _seleccionarPantalla=1;
+                      setState(() {
+                        _seleccionarPantalla = 2;
+                        animate();
                       });
                     },
-                    tooltip: 'Inbox',
+                    tooltip: 'Agregar',
                     child: Icon(Icons.add),
                     heroTag: "add",
                   ),
                 ),
                 FloatingActionButton(
                   backgroundColor: _buttonColor.value,
-                  elevation: 25,
                   onPressed: () {
                     setState(() {
                       animate();
@@ -198,144 +249,177 @@ class _MyServiciosState extends State<MyServicios>
     );
   }
 
- 
-
-Widget formulario(){
-        return Form(
-                  key: _formKey,
-                  child: ListView(
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 35, left: 16, right: 16),
-                        child: Card(
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: TextFormField(
-                            controller: _nombreController,
-                            validator: (valor) {
-                              return valor.isEmpty
-                                  ? 'El nombre es requerido'
-                                  : null;
-                            },
-                            //enabled: false,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              labelText: 'Nombre',
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 35, left: 16, right: 16),
-                        child: Card(
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: TextFormField(
-                            controller: _descripcionController,
-                            validator: (valor) {
-                              return valor.isEmpty
-                                  ? 'La descripción es requerida'
-                                  : null;
-                            },
-                            //enabled: false,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              labelText: 'Descripción',
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          FlatButton(
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                DBProvider.db.registrarBD(
-                                    ServicioModel(
-                                        nombre: _nombreController.text,
-                                        descripcion:
-                                            _descripcionController.text),
-                                    'servicios');
-                                final snackBar = SnackBar(
-                                  duration: Duration(milliseconds: 1200),
-                                  content: Text(
-                                      'El servicio ${_nombreController.text} se ha guardado'),
-                                  action: SnackBarAction(
-                                    label: 'Undo',
-                                    onPressed: () {
-                                      // Some code to undo the change.
-                                    },
-                                  ),
-                                );
-                                _scaffoldKey.currentState
-                                    .showSnackBar(snackBar);
-                                _formKey.currentState?.reset();
-                              }
-                            },
-                            child: Text('Guardar',
-                                style: TextStyle(
-                                    color: Colors.blueGrey, fontSize: 20)),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                                _formKey.currentState?.reset();
-                            },
-                            child: Text(
-                              'Cancelar',
-                              style: TextStyle(
-                                  color: Colors.blueGrey, fontSize: 20),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                        ],
+  Widget formulario() {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 35, left: 10, right: 22),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: TextFormField(
+                controller: _nombreController,
+                enabled: !isOpened,
+                validator: (valor) {
+                  return valor.isEmpty ? 'El nombre es requerido' : null;
+                },
+                //enabled: false,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  labelText: 'Nombre',
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 10, right: 22),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: TextFormField(
+                controller: _descripcionController,
+                enabled: !isOpened,
+                validator: (valor) {
+                  return valor.isEmpty ? 'La descripción es requerida' : null;
+                },
+                //enabled: false,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  labelText: 'Descripción',
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.teal.shade600,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        offset: Offset(1, 8),
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        spreadRadius: 1,
                       )
                     ],
                   ),
-                );
-}
-
- Widget seleccionarPantalla(){
-    switch (_seleccionarPantalla){
-    case 1 : return formulario();
-    case 2 : return ListarServiciosPage();
-    }
-
-  Widget float1() {
-    return Container(
-      child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'First button',
-        child: Icon(Icons.add),
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    elevation: 1,
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        DBProvider.db.registrarBD(
+                            ServicioModel(
+                                nombre: _nombreController.text,
+                                descripcion: _descripcionController.text),
+                            'servicios');
+                        final snackBar = SnackBar(
+                          duration: Duration(milliseconds: 1200),
+                          content: Text(
+                              'El servicio ${_nombreController.text} se ha guardado'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+                        _scaffoldKey.currentState.showSnackBar(snackBar);
+                        _formKey.currentState?.reset();
+                      }
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Guardar'.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          FontAwesomeIcons.save,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                  )),
+              SizedBox(
+                width: 15,
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.teal.shade600,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        offset: Offset(1, 8),
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      )
+                    ],
+                  ),
+                  child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    elevation: 0.9,
+                    onPressed: () {
+                      _formKey.currentState?.reset();
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Cancelar'.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 1,
+                        ),
+                        Icon(
+                          FontAwesomeIcons.times,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                  )),
+              SizedBox(
+                width: 25,
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  Widget float2() {
-    return Container(
-      child: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Second button',
-        child: Icon(Icons.add),
-      ),
-    );
+  Widget seleccionarPantalla() {
+    switch (_seleccionarPantalla) {
+      case 1:
+        return ListarServiciosPage();
+      case 2:
+        return formulario();
+    }
   }
 }
-
-    }

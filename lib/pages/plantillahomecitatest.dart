@@ -8,7 +8,7 @@ Widget BodyCita(BuildContext context, CalendarController _controller) {
     children: <Widget>[
       TableCalendar(
         daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: TextStyle(color: Colors.blue),
+            weekdayStyle: TextStyle(color: Colors.teal.shade600),
             weekendStyle: TextStyle(color: Colors.red)),
         availableCalendarFormats: {
           CalendarFormat.month: 'Mes',
@@ -48,17 +48,17 @@ Widget BodyCita(BuildContext context, CalendarController _controller) {
               margin: const EdgeInsets.all(4.0),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0)),
               child: Text(
                 date.day.toString(),
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.teal.shade600),
               )),
           todayDayBuilder: (context, date, events) => Container(
               margin: const EdgeInsets.all(4.0),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.orange,
+                  color: Colors.teal.shade600,
                   borderRadius: BorderRadius.circular(10.0)),
               child: Text(
                 date.day.toString(),

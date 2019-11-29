@@ -40,6 +40,9 @@ dependencies:
   unicorndial: ^1.1.5
   autocomplete_textfield: ^1.6.4
   intl: ^0.16.0
+  font_awesome_flutter: ^8.5.0
+
+
 
 
 dev_dependencies:
