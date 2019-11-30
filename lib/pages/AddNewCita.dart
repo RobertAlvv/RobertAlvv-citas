@@ -1,6 +1,7 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_citas_test/models/citasModels.dart';
 import 'package:project_citas_test/providers/db_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,6 +16,8 @@ class _AddCitaState extends State<AddCita> {
   TextEditingController _especialistasController = TextEditingController();
   TextEditingController _servicioslistasController = TextEditingController();
   TextEditingController _fechaController = TextEditingController();
+
+  String fecha='';
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -303,9 +306,9 @@ class _AddCitaState extends State<AddCita> {
                       borderRadius: BorderRadius.circular(20.0)),
                   elevation: 1,
                   onPressed: () {
-                    // DBProvider.db.registrarBD(CitasModel(fecha: DateTime.parse(_fechaController.text)
-                    // ,id_cliente: idCliente,id_especialista: idEspecialista,id_servicio: idServicio)
-                    // , 'citas');
+                    DBProvider.db.registrarBD(CitasModel(fecha: fecha
+                    ,id_cliente: idCliente,id_especialista: idEspecialista,id_servicio: idServicio)
+                    , 'citas');
 
                     final snackBar = SnackBar(
                       duration: Duration(milliseconds: 1200),
@@ -323,6 +326,7 @@ class _AddCitaState extends State<AddCita> {
                     _servicioslistasController.text = '';
                     _fechaController.text = '';
                     _especialistasController.text = '';
+                    fecha='';
                   },
                   child: Row(
                     children: <Widget>[
@@ -431,6 +435,7 @@ class _AddCitaState extends State<AddCita> {
       lastDate: DateTime(2021),
     );
     final formato = DateFormat('dd-MM-yyyy');
+    fecha=picket.toString();
     setState(() {
       _fechaController.text = picket != null ? formato.format(picket) : '';
     });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_citas_test/pages/search_delegate.dart';
+import 'package:project_citas_test/providers/db_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'plantillahomecitatest.dart';
 import 'AddNewCita.dart';
@@ -24,6 +25,7 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
+    DBProvider.db.mostrarCitas();
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

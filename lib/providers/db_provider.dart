@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:project_citas_test/models/citasModels.dart';
 import 'package:project_citas_test/models/clienteModels.dart';
 import 'package:project_citas_test/models/especialistaModels.dart';
 import 'package:project_citas_test/models/serviciosModels.dart';
@@ -141,5 +141,19 @@ class DBProvider {
     };
 
     return dataAutocompletado;
+  }
+
+  
+
+  Future <List<CitasModel>> mostrarCitas() async {
+        final db = await database;
+        final results = await db.rawQuery('SELECT citas.fecha as fecha_cita,clientes.nombre_completo as nombre_cliente,servicios.nombre as nombre_servicio from citas INNER JOIN clientes on clientes.id = citas.id_cliente INNER JOIN servicios on servicios.id=citas.id_servicio');
+     
+        List<CitasModel> citas = results.isNotEmpty
+        ? results.map((cita) => CitasModel.fromMapCitas(cita)).toList()
+        : [];
+   
+      
+    return citas;
   }
 }

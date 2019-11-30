@@ -1,10 +1,12 @@
 class  CitasModel {
-  int    id;
+  int id;
   int id_cliente;
   int id_especialista;
   int id_servicio;
-  DateTime fecha;
+  String fecha;
 
+  String cliente;
+  String servicio;
    CitasModel(
       {this.id, this.id_cliente, this.id_especialista, this.id_servicio, this.fecha});
 
@@ -17,6 +19,13 @@ class  CitasModel {
     fecha = map['fecha'];
   }
 
+
+CitasModel.fromMapCitas(Map<String, dynamic> map) {
+    id = map['id'];
+    cliente = map['nombre_cliente'];
+    servicio = map['nombre_servicio'];
+    fecha = map['fecha_cita'];
+  }
   //Method
   Map<String, dynamic> toMap() {
     return {
