@@ -8,12 +8,12 @@ class createRoute {
 
   Route createRoutemethod() {
     return PageRouteBuilder(
-      transitionDuration: Duration(milliseconds: 1300),
+      transitionDuration: Duration(milliseconds: 700),
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(x, y);
         var end = Offset.zero;
-        var curve = Curves.linearToEaseOut;
+        var curve = Curves.ease;
 
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));

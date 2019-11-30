@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_citas_test/models/serviciosModels.dart';
+import 'package:project_citas_test/pages/AddServicios.dart';
 import 'package:project_citas_test/providers/db_provider.dart';
+
+import 'ServiciosPages.dart';
 
 class ListarServiciosPage extends StatefulWidget {
   @override
@@ -11,7 +14,7 @@ class ListarServiciosPage extends StatefulWidget {
 class _ListarServiciosPageState extends State<ListarServiciosPage> {
   @override
   Widget build(BuildContext context) {
-    return _consultarServicios();
+    return seleccionarPantalla(intseleccionarPantalla);
   }
 
   Widget _consultarServicios() {
@@ -49,24 +52,26 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
           confirmDismiss: (direction) async {
             if (direction == DismissDirection.endToStart) {
               final bool res = await showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Text("Are you sure you want to delete ?"),
+                      title: Icon(
+                        Icons.warning,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      elevation: 8,
+                      content:
+                          Text("Seguro que quieres eliminar este servicio?"),
                       actions: <Widget>[
                         FlatButton(
                           child: Text(
-                            "Cancel",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        FlatButton(
-                          child: Text(
-                            "Delete",
-                            style: TextStyle(color: Colors.red),
+                            "Eliminar",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                            ),
                           ),
                           onPressed: () {
                             // TODO: Delete the item from DB etc..
@@ -77,12 +82,27 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
                             Navigator.of(context).pop();
                           },
                         ),
+                        FlatButton(
+                          child: Text(
+                            "Cancelar",
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ],
                     );
                   });
               return res;
             } else {
-              print('edit');
+              setState(() {
+                intseleccionarPantalla = 2;
+                seleccionarPantalla(intseleccionarPantalla);
+              });
             }
           },
           key: UniqueKey(),
@@ -189,5 +209,14 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
         alignment: Alignment.centerRight,
       ),
     );
+  }
+
+  Widget seleccionarPantalla(int v) {
+    switch (v) {
+      case 1:
+        return _consultarServicios();
+      case 2:
+        return formulario();
+    }
   }
 }

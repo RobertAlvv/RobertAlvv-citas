@@ -322,6 +322,7 @@ class _MyClientesState extends State<MyClientes>
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 enabled: !isOpened,
                 controller: _telefonoController,
                 validator: (valor) {
