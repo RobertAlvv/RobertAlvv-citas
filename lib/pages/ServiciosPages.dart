@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_citas_test/pages/ListarServicios.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'AddServicios.dart';
 
 final scaffoldKeyServices = GlobalKey<ScaffoldState>();
 bool isOpenedServices = false;
-int intseleccionarPantalla;
+int ServicioseleccionarPantalla;
 
 class MyServicios extends StatefulWidget {
   @override
@@ -25,7 +24,7 @@ class _MyServiciosState extends State<MyServicios>
 
   @override
   initState() {
-    intseleccionarPantalla = 1;
+    ServicioseleccionarPantalla = 1;
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
@@ -176,7 +175,8 @@ class _MyServiciosState extends State<MyServicios>
                         ),
                       ),
                       Flexible(
-                          child: seleccionarPantalla(intseleccionarPantalla))
+                          child:
+                              seleccionarPantalla(ServicioseleccionarPantalla))
                     ],
                   )),
             ),
@@ -197,7 +197,7 @@ class _MyServiciosState extends State<MyServicios>
                     backgroundColor: Colors.teal.shade600,
                     onPressed: () {
                       setState(() {
-                        intseleccionarPantalla = 1;
+                        ServicioseleccionarPantalla = 1;
                         animate();
                       });
                     },
@@ -216,7 +216,7 @@ class _MyServiciosState extends State<MyServicios>
                     backgroundColor: Colors.teal.shade600,
                     onPressed: () {
                       setState(() {
-                        intseleccionarPantalla = 2;
+                        ServicioseleccionarPantalla = 2;
                         animate();
                       });
                     },
@@ -230,6 +230,7 @@ class _MyServiciosState extends State<MyServicios>
                   onPressed: () {
                     setState(() {
                       animate();
+                      // ignore: unnecessary_statements
                       _opacity;
                     });
                   },
@@ -254,6 +255,6 @@ Widget seleccionarPantalla(int v) {
     case 1:
       return ListarServiciosPage();
     case 2:
-      return formulario();
+      return formularioServicio('', '');
   }
 }

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:project_citas_test/models/serviciosModels.dart';
 import 'package:project_citas_test/pages/AddServicios.dart';
 import 'package:project_citas_test/providers/db_provider.dart';
-
 import 'ServiciosPages.dart';
+import 'AddServicios.dart';
 
 class ListarServiciosPage extends StatefulWidget {
   @override
@@ -12,9 +12,12 @@ class ListarServiciosPage extends StatefulWidget {
 }
 
 class _ListarServiciosPageState extends State<ListarServiciosPage> {
+  String _nombre = "";
+  String _descripcion = "";
+
   @override
   Widget build(BuildContext context) {
-    return seleccionarPantalla(intseleccionarPantalla);
+    return seleccionarPantalla(ServicioseleccionarPantalla);
   }
 
   Widget _consultarServicios() {
@@ -100,8 +103,10 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
               return res;
             } else {
               setState(() {
-                intseleccionarPantalla = 2;
-                seleccionarPantalla(intseleccionarPantalla);
+                ServicioseleccionarPantalla = 2;
+                seleccionarPantalla(ServicioseleccionarPantalla);
+                _nombre = servicio.nombre;
+                _descripcion = servicio.descripcion;
               });
             }
           },
@@ -137,7 +142,7 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
                           child: Text('Descripción en  ${servicio.descripcion}',
                               style: TextStyle(fontSize: 14)),
                         ),
-                        onTap: () {},
+                        //onTap: () {},
                       ),
                     ),
                   ],
@@ -216,7 +221,7 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
       case 1:
         return _consultarServicios();
       case 2:
-        return formulario();
+        return formularioServicio(_nombre, _descripcion);
     }
   }
 }
