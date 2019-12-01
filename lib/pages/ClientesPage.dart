@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project_citas_test/models/clienteModels.dart';
 import 'package:project_citas_test/pages/ListarClientes.dart';
-import 'package:project_citas_test/providers/db_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'AddCliente.dart';
+
+final scaffoldKeyCliente = GlobalKey<ScaffoldState>();
+bool isOpenedCliente = false;
+int ClienteseleccionarPantalla;
 
 class MyClientes extends StatefulWidget {
   @override
@@ -12,24 +15,16 @@ class MyClientes extends StatefulWidget {
 class _MyClientesState extends State<MyClientes>
     with SingleTickerProviderStateMixin {
   double _opacity = 1.0;
-  bool isOpened = false;
   AnimationController _animationController;
   Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
-  int _seleccionarPantalla = 1;
 
-  TextEditingController _nombreController = TextEditingController();
-  TextEditingController _correoController = TextEditingController();
-  TextEditingController _direccionController = TextEditingController();
-  TextEditingController _telefonoController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   initState() {
+    ClienteseleccionarPantalla = 1;
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
@@ -69,7 +64,7 @@ class _MyClientesState extends State<MyClientes>
   }
 
   animate() {
-    if (!isOpened) {
+    if (!isOpenedCliente) {
       _animationController.forward();
       _opacity = 0.4;
     } else {
@@ -77,7 +72,7 @@ class _MyClientesState extends State<MyClientes>
         _opacity = 1.0;
       });
     }
-    isOpened = !isOpened;
+    isOpenedCliente = !isOpenedCliente;
   }
 
   @override
@@ -101,7 +96,7 @@ class _MyClientesState extends State<MyClientes>
           Opacity(
             opacity: _opacity,
             child: Scaffold(
-              key: _scaffoldKey,
+              key: scaffoldKeyCliente,
               backgroundColor: Colors.transparent,
               appBar: PreferredSize(
                 preferredSize: Size(double.infinity, 200),
@@ -178,7 +173,9 @@ class _MyClientesState extends State<MyClientes>
                               color: Colors.teal.shade600),
                         ),
                       ),
-                      Flexible(child: seleccionarPantalla())
+                      Flexible(
+                          child:
+                              seleccionarPantalla(ClienteseleccionarPantalla))
                     ],
                   )),
             ),
@@ -199,7 +196,7 @@ class _MyClientesState extends State<MyClientes>
                     backgroundColor: Colors.teal.shade600,
                     onPressed: () {
                       setState(() {
-                        _seleccionarPantalla = 1;
+                        ClienteseleccionarPantalla = 1;
                         animate();
                       });
                     },
@@ -218,7 +215,7 @@ class _MyClientesState extends State<MyClientes>
                     backgroundColor: Colors.teal.shade600,
                     onPressed: () {
                       setState(() {
-                        _seleccionarPantalla = 2;
+                        ClienteseleccionarPantalla = 2;
                         animate();
                       });
                     },
@@ -250,218 +247,12 @@ class _MyClientesState extends State<MyClientes>
     );
   }
 
-  Widget formularioCliente() {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 35, left: 10, right: 22),
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                enabled: !isOpened,
-                controller: _nombreController,
-                validator: (valor) {
-                  return valor.isEmpty ? 'El nombre es requerido' : null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  labelText: 'Nombre Completo',
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 10, right: 22),
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                enabled: !isOpened,
-                controller: _correoController,
-                validator: (valor) {
-                  return valor.isEmpty ? 'El correo es requerido' : null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  labelText: 'Correo Electrónico',
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 20, left: 10, right: 22),
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                enabled: !isOpened,
-                controller: _direccionController,
-                validator: (valor) {
-                  return valor.isEmpty ? 'Este campo es requerido' : null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  labelText: 'Cedula o RNC',
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 20, left: 10, right: 22),
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                enabled: !isOpened,
-                controller: _telefonoController,
-                validator: (valor) {
-                  return valor.isEmpty ? 'El teléfono es requerido' : null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  labelText: 'Teléfono',
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.teal.shade600,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        offset: Offset(1, 8),
-                        color: Colors.black26,
-                        blurRadius: 10,
-                        spreadRadius: 1,
-                      )
-                    ],
-                  ),
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    elevation: 1,
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        DBProvider.db.registrarBD(
-                            ClienteModel(
-                                nombreCompleto: _nombreController.text,
-                                direccion: _direccionController.text,
-                                correo: _correoController.text,
-                                telefono: _telefonoController.text),
-                            'clientes');
-                        final snackBar = SnackBar(
-                          duration: Duration(milliseconds: 1200),
-                          content: Text(
-                              'El cliente ${_nombreController.text} se ha guardado'),
-                          action: SnackBarAction(
-                            label: 'Undo',
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                          ),
-                        );
-                        _scaffoldKey.currentState.showSnackBar(snackBar);
-                        _formKey.currentState?.reset();
-                      }
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Guardar'.toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.save,
-                          color: Colors.white,
-                        )
-                      ],
-                    ),
-                  )),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.teal.shade600,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        offset: Offset(1, 8),
-                        color: Colors.black26,
-                        blurRadius: 10,
-                        spreadRadius: 1,
-                      )
-                    ],
-                  ),
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    elevation: 0.9,
-                    onPressed: () {
-                      _formKey.currentState?.reset();
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Cancelar'.toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 1,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.times,
-                          color: Colors.white,
-                        )
-                      ],
-                    ),
-                  )),
-              SizedBox(
-                width: 25,
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget seleccionarPantalla() {
-    switch (_seleccionarPantalla) {
+  Widget seleccionarPantalla(int v) {
+    switch (v) {
       case 1:
         return ListarCliente();
       case 2:
-        return formularioCliente();
+        return formularioCliente('', '', '', '');
     }
   }
 }
