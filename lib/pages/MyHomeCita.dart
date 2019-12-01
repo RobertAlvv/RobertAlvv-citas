@@ -14,18 +14,15 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   createRoute transition = createRoute(AddCita(), 0.0, 1.0);
 
-  CalendarController _controller;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void initState() {
     super.initState();
-    _controller = CalendarController();
   }
 
   @override
   Widget build(BuildContext context) {
-    DBProvider.db.mostrarCitas();
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -92,7 +89,7 @@ class _MyHomeState extends State<MyHome> {
             ),
           ],
         ),
-        body: BodyCita(context, _controller),
+        body:CitasCalendarioPage(),
         //BottomNavBar()
       ),
     );
