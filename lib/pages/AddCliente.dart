@@ -16,6 +16,7 @@ class formularioCliente extends StatelessWidget {
   String correo;
   String direccion;
   String telefono;
+  int id;
 
   String valorIcono = "editar";
   final _icons = <String, IconData>{
@@ -23,7 +24,7 @@ class formularioCliente extends StatelessWidget {
     "salvar": FontAwesomeIcons.save,
   };
 
-  formularioCliente(this.nombre, this.correo, this.direccion, this.telefono);
+  formularioCliente(this.nombre, this.correo, this.direccion, this.telefono,this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -150,17 +151,32 @@ class formularioCliente extends StatelessWidget {
                     elevation: 1,
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        DBProvider.db.registrarBD(
+                         String accion ='guardado';
+                        if(valorIcono=='salvar'){
+                                DBProvider.db.registrarBD(
                             ClienteModel(
                                 nombreCompleto: _nombreController.text,
                                 direccion: _direccionController.text,
                                 correo: _correoController.text,
                                 telefono: _telefonoController.text),
                             'clientes');
+                        _formKey.currentState?.reset();
+                        }else{
+                          accion ='actualizado';
+                               DBProvider.db.updateBD(
+                            ClienteModel(
+                              id: id,
+                                nombreCompleto: _nombreController.text,
+                                direccion: _direccionController.text,
+                                correo: _correoController.text,
+                                telefono: _telefonoController.text),
+                            'clientes');
+                        }
+                  
                         final snackBar = SnackBar(
                           duration: Duration(milliseconds: 1200),
                           content: Text(
-                              'El cliente ${_nombreController.text} se ha guardado'),
+                              'El cliente ${_nombreController.text} se ha $accion'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {
@@ -169,7 +185,6 @@ class formularioCliente extends StatelessWidget {
                           ),
                         );
                         scaffoldKeyCliente.currentState.showSnackBar(snackBar);
-                        _formKey.currentState?.reset();
                       }
                     },
                     child: Row(

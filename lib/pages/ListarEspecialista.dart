@@ -15,6 +15,7 @@ class _ListarEspecialistaPageState extends State<ListarEspecialistaPage> {
   String _correo = "";
   String _direccion = "";
   String _telefono = "";
+  int _id;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +111,7 @@ class _ListarEspecialistaPageState extends State<ListarEspecialistaPage> {
                 _correo = especialita.correo;
                 _telefono = especialita.telefono;
                 _direccion = especialita.direccion;
+                _id = especialita.id;
               });
             }
           },
@@ -225,7 +227,7 @@ class _ListarEspecialistaPageState extends State<ListarEspecialistaPage> {
       case 1:
         return _consultarEspecialista();
       case 2:
-        return formularioEspecialista(_nombre, _correo, _direccion, _telefono);
+        return formularioEspecialista(_nombre, _correo, _direccion, _telefono,_id);
     }
   }
 }

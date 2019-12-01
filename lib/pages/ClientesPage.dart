@@ -252,7 +252,7 @@ class _MyClientesState extends State<MyClientes>
       case 1:
         return ListarCliente();
       case 2:
-        return formularioCliente('', '', '', '');
+        return formularioCliente('', '', '', '',0);
     }
   }
 }

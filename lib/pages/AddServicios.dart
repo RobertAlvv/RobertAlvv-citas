@@ -11,8 +11,9 @@ class formularioServicio extends StatelessWidget {
 
   String nombre;
   String descripcion;
+  int id;
 
-  formularioServicio(this.nombre, this.descripcion);
+  formularioServicio(this.nombre, this.descripcion,this.id);
   String valorIcono = "editar";
   final _icons = <String, IconData>{
     "editar": FontAwesomeIcons.edit,
@@ -99,15 +100,28 @@ class formularioServicio extends StatelessWidget {
                     elevation: 1,
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        DBProvider.db.registrarBD(
+                         String accion ='guardado';
+                        if(valorIcono=='salvar'){
+                              DBProvider.db.registrarBD(
                             ServicioModel(
                                 nombre: _nombreController.text,
                                 descripcion: _descripcionController.text),
                             'servicios');
+                        _formKey.currentState?.reset();
+                        }else{
+                            accion ='actualizado';
+                            DBProvider.db.updateBD(
+                            ServicioModel(
+                                id: id,
+                                nombre: _nombreController.text,
+                                descripcion: _descripcionController.text),
+                            'servicios');
+                        }
+                      
                         final snackBar = SnackBar(
                           duration: Duration(milliseconds: 1200),
                           content: Text(
-                              'El servicio ${_nombreController.text} se ha guardado'),
+                              'El servicio ${_nombreController.text} se ha $accion'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {
@@ -116,7 +130,6 @@ class formularioServicio extends StatelessWidget {
                           ),
                         );
                         scaffoldKeyServices.currentState.showSnackBar(snackBar);
-                        _formKey.currentState?.reset();
                       }
                     },
                     child: Row(

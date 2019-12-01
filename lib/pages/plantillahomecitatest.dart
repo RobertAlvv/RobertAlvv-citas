@@ -12,8 +12,7 @@ class CitasCalendarioPage extends StatefulWidget {
 
 class _CitasCalendarioState extends State<CitasCalendarioPage> {
   CalendarController _controller = CalendarController();
-  List<DateTime> citasArray = [];
-
+  String fechaSeleccion=DateTime.now().toString();
 
   @override
   Widget build(BuildContext context) {
@@ -27,32 +26,42 @@ class _CitasCalendarioState extends State<CitasCalendarioPage> {
           );
         }
 
-        if (snapshot.data.length == 0) {
-          return Center(
-            child: Text(
-              'No hay citas registradas',
-              style: TextStyle(fontSize: 28.0, color: Colors.red),
-            ),
-          );
-        }
-  Map<DateTime, List<dynamic>> citasCalendario = {};
+        // if (snapshot.data.length == 0) {
+        //   return Center(
+        //     child: Text(
+        //       'No hay citas registradas',
+        //       style: TextStyle(fontSize: 28.0, color: Colors.red),
+        //     ),
+        //   );
+        // }
+        Map<DateTime, List<dynamic>> citasCalendario = {};
 
-        snapshot.data.forEach( (cita){
-          print(cita.fecha);
-      int ano = int.parse(cita.fecha.split("-")[0]);
-      int mes = int.parse(cita.fecha.split("-")[1]);
-      int dia = int.parse(cita.fecha.split("-")[2].split(' ')[0]);
-      DateTime fecha = DateTime(ano, mes, dia);
-      citasCalendario.putIfAbsent(fecha, () => ['a']);
+        List<CitasModel> citasArray=[];
+         
+        snapshot.data.forEach((cita) {
+          int ano = int.parse(cita.fecha.split("-")[0]);
+          int mes = int.parse(cita.fecha.split("-")[1]);
+          int dia = int.parse(cita.fecha.split("-")[2].split(' ')[0]);
+
+
+          DateTime fecha = DateTime(ano, mes, dia);
+          citasCalendario.putIfAbsent(fecha, () => ['a']);
+          String fechaFormato = '${ano.toString()}-${mes.toString()}-${dia.toString()}';
+
+            if (fechaSeleccion.indexOf(fechaFormato) >= 0) {
+              citasArray.add(cita);
+            }
+        
         });
+
 
         return Column(
           children: <Widget>[
-            calendario(context,citasCalendario),
+            calendario(context, citasCalendario),
             Flexible(
                 child: ListView(
                     scrollDirection: Axis.vertical,
-                    children: mostrarCitas(snapshot.data)))
+                    children: mostrarCitas(citasArray)))
           ],
           crossAxisAlignment: CrossAxisAlignment.start,
         );
@@ -60,7 +69,8 @@ class _CitasCalendarioState extends State<CitasCalendarioPage> {
     );
   }
 
-  Widget calendario(BuildContext context,Map<DateTime, List<dynamic>> citasCalendario ) {
+  Widget calendario(
+      BuildContext context, Map<DateTime, List<dynamic>> citasCalendario) {
     return TableCalendar(
       holidays: citasCalendario,
       daysOfWeekStyle: DaysOfWeekStyle(
@@ -97,7 +107,10 @@ class _CitasCalendarioState extends State<CitasCalendarioPage> {
       ),
       startingDayOfWeek: StartingDayOfWeek.sunday,
       onDaySelected: (date, events) {
-        print(date);
+        fechaSeleccion=date.toString();
+        setState(() {
+          
+        });
       },
       builders: CalendarBuilders(
         selectedDayBuilder: (context, date, events) => Container(
@@ -126,8 +139,6 @@ class _CitasCalendarioState extends State<CitasCalendarioPage> {
 
   List<Widget> mostrarCitas(List<CitasModel> citas) {
     return citas.map((cita) {
-   
-
       return AnimationConfiguration.staggeredList(
         position: 0,
         duration: const Duration(milliseconds: 250),

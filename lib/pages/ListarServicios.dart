@@ -14,6 +14,7 @@ class ListarServiciosPage extends StatefulWidget {
 class _ListarServiciosPageState extends State<ListarServiciosPage> {
   String _nombre = "";
   String _descripcion = "";
+  int _id;
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +108,7 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
                 seleccionarPantalla(ServicioseleccionarPantalla);
                 _nombre = servicio.nombre;
                 _descripcion = servicio.descripcion;
+                _id = servicio.id;
               });
             }
           },
@@ -221,7 +223,7 @@ class _ListarServiciosPageState extends State<ListarServiciosPage> {
       case 1:
         return _consultarServicios();
       case 2:
-        return formularioServicio(_nombre, _descripcion);
+        return formularioServicio(_nombre, _descripcion,_id);
     }
   }
 }

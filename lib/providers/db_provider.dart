@@ -110,7 +110,7 @@ class DBProvider {
 
   Future<int> updateBD(dynamic registro, String tabla) async {
     final db = await database;
-
+     print(registro.toMap());
     final result = await db.update('$tabla', registro.toMap(),
         where: 'id = ?', whereArgs: [registro.id]);
     return result;

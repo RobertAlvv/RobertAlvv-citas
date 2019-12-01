@@ -15,7 +15,7 @@ class _ListarClienteState extends State<ListarCliente> {
   String _correo = "";
   String _direccion = "";
   String _telefono = "";
-
+  int  _id;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -110,6 +110,7 @@ class _ListarClienteState extends State<ListarCliente> {
                 _correo = cliente.correo;
                 _telefono = cliente.telefono;
                 _direccion = cliente.direccion;
+                _id = cliente.id;
               });
             }
           },
@@ -224,7 +225,7 @@ class _ListarClienteState extends State<ListarCliente> {
       case 1:
         return _consultarClientes();
       case 2:
-        return formularioCliente(_nombre, _correo, _direccion, _telefono);
+        return formularioCliente(_nombre, _correo, _direccion, _telefono,_id);
     }
   }
 }

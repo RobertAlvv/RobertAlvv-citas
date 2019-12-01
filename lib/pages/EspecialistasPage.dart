@@ -34,7 +34,6 @@ class _MyEspecialistasState extends State<MyEspecialistas>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
-            setState(() {});
           });
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
@@ -259,7 +258,7 @@ class _MyEspecialistasState extends State<MyEspecialistas>
       case 1:
         return ListarEspecialistaPage();
       case 2:
-        return formularioEspecialista('','','','');
+        return formularioEspecialista('','','','',0);
     }
   }
 }

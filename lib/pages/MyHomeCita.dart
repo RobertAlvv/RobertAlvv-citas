@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_citas_test/pages/search_delegate.dart';
-import 'package:project_citas_test/providers/db_provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'plantillahomecitatest.dart';
 import 'AddNewCita.dart';
 import 'TransitionsPage.dart';

@@ -14,6 +14,7 @@ class formularioEspecialista extends StatelessWidget {
   String correo;
   String direccion;
   String telefono;
+  int id;
 
   String valorIcono = "editar";
   final _icons = <String, IconData>{
@@ -22,7 +23,7 @@ class formularioEspecialista extends StatelessWidget {
   };
 
   formularioEspecialista(
-      this.nombre, this.correo, this.direccion, this.telefono);
+      this.nombre, this.correo, this.direccion, this.telefono,this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class formularioEspecialista extends StatelessWidget {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16)),
-                  labelText: 'Cedula',
+                  labelText: 'Cédula',
                 ),
               ),
             ),
@@ -98,7 +99,7 @@ class formularioEspecialista extends StatelessWidget {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16)),
-                  labelText: 'Direccion',
+                  labelText: 'Dirección',
                 ),
               ),
             ),
@@ -148,17 +149,32 @@ class formularioEspecialista extends StatelessWidget {
                     elevation: 1,
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        DBProvider.db.registrarBD(
+                        String accion ='guardado';
+                        if(valorIcono=='salvar'){
+                           DBProvider.db.registrarBD(
                             EspecialistaModel(
                                 nombreCompleto: _nombreController.text,
                                 direccion: _direccionController.text,
                                 correo: _correoController.text,
                                 telefono: _telefonoController.text),
                             'especialista');
+                        _formKey.currentState?.reset();
+                        }else{
+                          accion ='actualizado'; 
+                            DBProvider.db.updateBD(
+                            EspecialistaModel(
+                                id: id,
+                                nombreCompleto: _nombreController.text,
+                                direccion: _direccionController.text,
+                                correo: _correoController.text,
+                                telefono: _telefonoController.text),
+                            'especialista');
+                        }
+                       
                         final snackBar = SnackBar(
                           duration: Duration(milliseconds: 1200),
                           content: Text(
-                              'El especialista ${_nombreController.text} se ha guardado'),
+                              'El especialista ${_nombreController.text} se ha $accion'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {
@@ -168,7 +184,6 @@ class formularioEspecialista extends StatelessWidget {
                         );
                         scaffoldKeyEspecialista.currentState
                             .showSnackBar(snackBar);
-                        _formKey.currentState?.reset();
                       }
                     },
                     child: Row(
